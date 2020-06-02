@@ -15,7 +15,7 @@ vec vnorm(vec u) { return vmul(u,1/sqrt(vdot(u,u))); }
 /* rgl */
 int G[] = {263948, 264338, 262288, 266128, 395408, 346256, 296720, 16, 16};
 
-double R(void) { return (double)rand() / 0x7ffffffd; }
+double R(void) { return frand(); }
 
 int
 TraceRay(vec src, vec dst, double *t, vec *normal)
@@ -81,7 +81,7 @@ Sample(vec src, vec dst)
 
 	if((match & 1) != 0){
 		intersection = vmul(intersection, 0.2);
-		return ((int)(ceil(intersection.x) + ceil(intersection.y)) & 1) != 0? v(3,1,1): vmul(v(3,3,3), (lamb_f * 0.2 + 0.1));
+		return vmul(((int)(ceil(intersection.x) + ceil(intersection.y)) & 1) != 0? v(3,1,1): v(3,3,3), lamb_f * 0.2 + 0.1);
 	}
 
 	return vadd(v(color,color,color), vmul(Sample(intersection, half_vec), 0.5));
@@ -105,7 +105,7 @@ main()
 			color = v(13,13,13);
 			for(r = 64; r--;){
 				delta = vadd(vmul(vmul(cam_up, R() - 0.5), 99), vmul(vmul(cam_right, R() - 0.5), 99));
-				color = vadd(vmul(Sample(vadd(v(17,16,8), delta), vnorm(vmul(vadd(vmul(delta, -1), vadd(vadd(vmul(cam_up, R()+x), vmul(cam_right, R()+y)), c)), 16))), 3.5), color);
+				color = vadd(vmul(Sample(vadd(v(17,16,8), delta), vnorm(vadd(vmul(delta, -1), vmul(vadd(vadd(vmul(cam_up, R()+x), vmul(cam_right, R()+y)), c), 16)))), 3.5), color);
 			}
 			print("%c%c%c", (int)color.x, (int)color.y, (int)color.z);
 		}
