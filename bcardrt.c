@@ -93,7 +93,7 @@ main()
 	vec cam_forward, cam_up, cam_right, c, color, delta;
 	int x, y, r;
 
-	print("P6 512 512 255 ");
+	print("P3 512 512 255\n");
 
 	cam_forward = vnorm(v(-6,-16,0));
 	cam_up = vmul(vnorm(vcross(v(0,0,1), cam_forward)), 0.002);
@@ -107,7 +107,7 @@ main()
 				delta = vadd(vmul(vmul(cam_up, R() - 0.5), 99), vmul(vmul(cam_right, R() - 0.5), 99));
 				color = vadd(vmul(Sample(vadd(v(17,16,8), delta), vnorm(vadd(vmul(delta, -1), vmul(vadd(vadd(vmul(cam_up, R()+x), vmul(cam_right, R()+y)), c), 16)))), 3.5), color);
 			}
-			print("%c%c%c", (int)color.x, (int)color.y, (int)color.z);
+			print("%d %d %d\n", (int)color.x, (int)color.y, (int)color.z);
 		}
 	exits(nil);
 }
